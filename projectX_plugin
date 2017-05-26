@@ -1,6 +1,6 @@
 #!/bin/bash
 
-loadavg=$( uptime | awk -F: '{print $5}' | xargs)
+loadavg=$( uptime | awk -F: '{print $4}' | xargs)
 
 load1int=$( echo $loadavg | cut -d "." -f 1)
 load2int=$( echo $loadavg | awk -F, '{print $2}' | xargs | cut -d "." -f 1)
