@@ -1,0 +1,20 @@
+#!/bin/bash
+
+location=$(find /opt/django -name 'settings.py')
+User=$(awk -F: "/'USER':/" $location | xargs | cut -d":" -f2 |cut -d ',' -f1)
+Ip=$(awk -F: "/'HOST':/" $location | xargs | cut -d":" -f2 | cut -d ',' -f1)
+Pass=$(awk -F: "/'PASSWORD':/" $location | cut -d":" -f2 | cut -d "," -f1 | xargs)
+
+Con=$(PGPASSWORD=$Pass psql -h $Ip -U $User -w -c "SELECT 1 FROM pg_roles WHERE rolname='postgres'" | awk '/row/' | cut -d "(" -f2 | cut -d ' ' -f1 | xargs)
+
+if [[ $con == 1 ]]; then
+	echo "OK - django server is connected to the postgress server"
+	exit 0
+
+else
+	if [-z $User]; then 
+	
+		echo "CRITICAL - No connection with the postgres server - No User"
+		exit 1
+	fi
+fi 
