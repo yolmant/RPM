@@ -5,7 +5,8 @@ User=$(awk -F: "/'USER':/" $location | xargs | cut -d":" -f2 |cut -d ',' -f1)
 Ip=$(awk -F: "/'HOST':/" $location | xargs | cut -d":" -f2 | cut -d ',' -f1)
 Pass=$(awk -F: "/'PASSWORD':/" $location | cut -d":" -f2 | cut -d "," -f1 | xargs)
 
-Con=$(PGPASSWORD=$Pass psql -h $Ip -U $User -c "SELECT 1 FROM pg_roles WHERE rolname='postgres'" | awk '/row/' | cut -d "(" -f2 | cut -d ' ' -f1 | xargs) 
+Con=$(PGPASSWORD=$Pass psql -h $Ip -U $User -w -c "SELECT 1 FROM pg_roles WHERE rolname='postgres'" 2>/dev/null | awk '/row/' | cut -d "(" -f2 | cut -d ' ' -f1 | xargs) 
+
 
 if [[ $Con == 1 ]]; then
 	
