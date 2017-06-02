@@ -24,3 +24,6 @@ sed -i 's/^/#/' /etc/httpd/conf.d/welcome.conf
 #restart apache
 systemctl restart httpd
 
+#remember that evry time you copy a .rpm file in /repos/CentOS/7/Packages you must have to apply
+#createrepo --update /repos/CentOS/7/Packages/
+
