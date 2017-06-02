@@ -1,0 +1,29 @@
+#!/bin/bash
+
+version=$(python --version 2>&1)
+
+a=$(echo $version | cut -d'.' -f1 | cut -d' ' -f2)
+b=$(echo $version | cut -d'.' -f2)
+
+output="your version of Python is $version"
+
+if [ $a -ge 2 -a $b -ge 7 ]; then
+	
+	echo "OK - $output"
+	exit 0
+
+elif [ $b -lt 7 ]; then
+	
+	echo "WARNING - $output - there are newer version"
+	exit 1
+
+elif [ $a -lt 2 ]; then
+
+	echo "CRITICAL - $output - Update Python"
+	exit 2
+
+else
+	echo "UNKNOWN - $output"
+	exit 3
+
+fi  
