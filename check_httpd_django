@@ -1,0 +1,11 @@
+#!/bin/bash
+
+status=$(apachectl configtest 2>&1 | awk -F: "/Syntax/" | cut -d' ' -f2)
+
+if [ $status == "OK" ]; then
+	echo "OK - apache is working correctly"
+	exit 0
+else
+	echo "CRITICAL - apache is not working check the configuration"
+	exit 1
+fi
